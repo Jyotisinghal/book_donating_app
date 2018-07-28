@@ -23,9 +23,10 @@ class UsersController < ApplicationController
   	@user = User.new(user_params)   #not the final implementation!
   	#handle a successful save
     if @user.save
-  		log_in @user
-  		flash[:success] = "Welcome to the OnLiNe ShOpPiNg"
-  		redirect_to @user  # This also we use, because both are same (redirect_to user_url(@user))
+  		@user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
+
   	else
   		render 'new'
   	end
